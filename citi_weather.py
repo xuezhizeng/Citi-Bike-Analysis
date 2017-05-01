@@ -217,20 +217,11 @@ citibike_data = cb713.unionAll(cb813).unionAll(cb913).unionAll(cb1013)\
 new_format = 'MM/dd/yyy'
 citibike_data = citibike_data.withColumn('new_format', from_unixtime(unix_timestamp(citibike_data.starttime, 'M/d/yyy'), new_format).alias('date'))
 
-#Conver to Pandas as Spark Datetime functions are timezone sensitive
-citibike_data_pd = citibike_data.toPandas()
-
-#Change starttime from String to Date Format
-citibike_data_pd['new_format'] = pd.to_datetime(citibike_data_pd['new_format'], infer_datetime_format=True)
-
-#Get Day of the Year
-citibike_data_pd['day_of_year'] = citibike_data_pd.new_format.apply(lambda x: x.dayofyear)
+#Convert string to date
+citibike_data = citibike_data.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
 
 #Drop the colums you don't need
-citibike_data_pd = citibike_data_pd.drop(['new_format'], axis=1)
-
-#Create a spark dataframe for Big Data Analysis
-citibike_data = spark.createDataFrame(citibike_data_pd)
+citibike_data = citibike_data.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
 
 ##Conver to Pandas as Spark Datetime functions are timezone sensitive 
 df_weather = weather.toPandas()
