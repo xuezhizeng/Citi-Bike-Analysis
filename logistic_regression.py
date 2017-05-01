@@ -38,4 +38,4 @@ trainingSummary.residuals.show()
 print("RMSE: %f" % trainingSummary.rootMeanSquaredError)
 print("r2: %f" % trainingSummary.r2)
 
-predictions.toPandas().toCSV('Predictions.csv')
+predictions.toPandas().to_csv('Predictions.csv')
