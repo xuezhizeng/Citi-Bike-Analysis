@@ -7,6 +7,12 @@ import pandas as pd
 from pyspark.sql import Row, Column
 from pyspark.ml.regression import LinearRegression
 
+spark = SparkSession\
+.builder\
+.appName("Python Spark SQL basic example")\
+.config("spark.some.config.option", "some-value")\
+.getOrCreate()
+
 # Load training data
 training = spark.read.format("libsvm")\
 .load("/home/ta1302/Citi-Bike-Analysis/citi_weather_libsvm.txt")
