@@ -205,27 +205,81 @@ cb1016 = cb1016.withColumnRenamed('Start Time', 'starttime').withColumnRenamed('
 cb1116 = cb1116.withColumnRenamed('Start Time', 'starttime').withColumnRenamed('Bike ID','bikeid').select(col('starttime'),col('bikeid'))
 cb1216 = cb1216.withColumnRenamed('Start Time', 'starttime').withColumnRenamed('Bike ID','bikeid').select(col('starttime'),col('bikeid'))
 
-citibike_data = cb713.unionAll(cb813).unionAll(cb913).unionAll(cb1013)\
-.unionAll(cb1113).unionAll(cb1213).unionAll(cb114).unionAll(cb214)\
+citibike_13 = cb713.unionAll(cb813).unionAll(cb913).unionAll(cb1013)\
+.unionAll(cb1113).unionAll(cb1213)
+
+citibike_14_8 = cb114.unionAll(cb214)\
 .unionAll(cb314).unionAll(cb414).unionAll(cb514).unionAll(cb614)\
-.unionAll(cb714).unionAll(cb814).unionAll(cb914).unionAll(cb1014)\
-.unionAll(cb1114).unionAll(cb1214).unionAll(cb115)\
-.unionAll(cb215).unionAll(cb315).unionAll(cb415).unionAll(cb515)\
+.unionAll(cb714).unionAll(cb814)
+
+citibike_14_9 = cb914.unionAll(cb1014)\
+.unionAll(cb1114).unionAll(cb1214)
+
+citibike_15 = cb115.unionAll(cb215).unionAll(cb315).unionAll(cb415).unionAll(cb515)\
 .unionAll(cb615).unionAll(cb715).unionAll(cb815).unionAll(cb915)\
-.unionAll(cb1015).unionAll(cb1115).unionAll(cb1215).unionAll(cb116)\
-.unionAll(cb216).unionAll(cb316).unionAll(cb416).unionAll(cb516)\
-.unionAll(cb616).unionAll(cb716).unionAll(cb816).unionAll(cb916)\
-.unionAll(cb1016).unionAll(cb1116).unionAll(cb1216)
+.unionAll(cb1015).unionAll(cb1115).unionAll(cb1215)
 
-#Change the date format
+citibike_16_9 = cb116.unionAll(cb216).unionAll(cb316).unionAll(cb416).unionAll(cb516)\
+.unionAll(cb616).unionAll(cb716).unionAll(cb816).unionAll(cb916)
+
+citibike_16_10 = cb1016.unionAll(cb1116).unionAll(cb1216)
+
+
+#Change the date format for 2013
 new_format = 'MM/dd/yyy'
-citibike_data = citibike_data.withColumn('new_format', from_unixtime(unix_timestamp(citibike_data.starttime, 'M/d/yyy'), new_format).alias('date'))
+citibike_13 = citibike_13.withColumn('formatted', from_unixtime(unix_timestamp(citibike_13.starttime, 'yyy/MM/dd'), new_format).alias('date'))
 
-#Convert String to Date
-citibike_data = citibike_data.withColumn('timestamp',unix_timestamp('new_format','MM/dd/yyy').cast("double").cast("timestamp"))
+citibike_13 = citibike_13.withColumn('timestamp',unix_timestamp('new_format','MM/dd/yyy').cast("double").cast("timestamp"))
+
+citibike_13 = citibike_13.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+
+#Change the date format for 2014
+new_format = 'MM/dd/yyy'
+
+citibike_14_8 = citibike_14_8.withColumn('formatted', from_unixtime(unix_timestamp(citibike_14_8.starttime, 'yyy/MM/dd'), new_format).alias('date'))
+
+citibike_14_9 = citibike_14_9.withColumn('formatted', from_unixtime(unix_timestamp(citibike_14_9.starttime, 'M/d/yyy'), new_format).alias('date'))
+
+citibike_14 = citibike_14_8.unionAll(citibike_14_9)
+
+citibike_14 = citibike_14.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
+
+citibike_14 = citibike_14.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+
+#Change the date format for 2015
+
+new_format = 'MM/dd/yyy'
+
+citibike_15 = citibike_15.withColumn('formatted', from_unixtime(unix_timestamp(citibike_15.starttime, 'M/d/yyy'), new_format).alias('date'))
+
+citibike_15 = citibike_15.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
+
+citibike_15 = citibike_15.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+
+#Change the date format for 2016
+
+new_format = 'MM/dd/yyy'
+
+citibike_16_9 = citibike_16_9.withColumn('formatted', from_unixtime(unix_timestamp(citibike_16_9.starttime, 'M/d/yyy'), new_format).alias('date'))
+
+citibike_16_10 = citibike_16_10.withColumn('formatted', from_unixtime(unix_timestamp(citibike_16_10.starttime, 'yyy/MM/dd'), new_format).alias('date'))
+
+citibike_16 = citibike_16_9.unionAll(citibike_16_10)
+
+citibike_16 = citibike_16.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
+
+citibike_16 = citibike_16.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+
+
 
 #Drop the columns you don't need
-citibike_data = citibike_data.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
+citibike_13 = citibike_13.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
+
+citibike_14 = citibike_14.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+
+citibike_15 = citibike_15.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+
+citibike_16 = citibike_16.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
 
 ##Conver to Pandas as Spark Datetime functions are timezone sensitive 
 df_weather = weather.toPandas()
@@ -233,11 +287,27 @@ df_weather = weather.toPandas()
 #Change date from String to Date Format
 df_weather['DATE'] = pd.to_datetime(df_weather['DATE'], format='%Y%m%d')
 
+#Take year wise weather
+df_weather_13 = df_weather[(df_weather['DATE']>=date(2013,7,1)) & (df_weather['DATE']<=date(2013,12,31))]
+
+df_weather_14 = df_weather[(df_weather['DATE']>=date(2014,1,1)) & (df_weather['DATE']<=date(2014,12,31))]
+
+df_weather_15 = df_weather[(df_weather['DATE']>=date(2015,1,1)) & (df_weather['DATE']<=date(2015,12,31))]
+
+df_weather_16 = df_weather[(df_weather['DATE']>=date(2016,1,1)) & (df_weather['DATE']<=date(2016,12,31))]
+
+
 #Get Day of Year for weather data
-df_weather['day_of_yr'] = df_weather.DATE.apply(lambda x: x.dayofyear)
+df_weather_13['day_of_yr'] = df_weather_13.DATE.apply(lambda x: x.dayofyear)
+df_weather_14['day_of_yr'] = df_weather_14.DATE.apply(lambda x: x.dayofyear)
+df_weather_15['day_of_yr'] = df_weather_15.DATE.apply(lambda x: x.dayofyear)
+df_weather_16['day_of_yr'] = df_weather_16.DATE.apply(lambda x: x.dayofyear)
 
 #Create a spark dataframe for Analysis
-weather_df = spark.createDataFrame(df_weather)
+weather13 = spark.createDataFrame(df_weather_13)
+weather14 = spark.createDataFrame(df_weather_14)
+weather15 = spark.createDataFrame(df_weather_15)
+weather16 = spark.createDataFrame(df_weather_16)
 
 #Define a User Defined Function to get whether it snowed or not
 def snowed(x):
@@ -250,30 +320,42 @@ def snowed(x):
 snowed_or_not = udf(snowed, IntegerType())
 
 #Calculate Average Temperature and Add snow column
-weather_df = weather_df.withColumn('AVG_T', (weather_df.TMAX + weather_df.TMIN)/2).withColumn('snowed', snowed_or_not(weather_df.SNOW))\
-.drop('STATION', 'STATION_NAME', 'TMAX', 'TMIN')
+weather13 = weather13.withColumn('AVG_T', (weather13.TMAX + weather13.TMIN)/2).withColumn('snowed', snowed_or_not(weather13.SNOW))\
+.drop('STATION', 'STATION_NAME', 'DATE','TMAX', 'TMIN')
+
+weather14 = weather14.withColumn('AVG_T', (weather14.TMAX + weather14.TMIN)/2).withColumn('snowed', snowed_or_not(weather14.SNOW))\
+.drop('STATION', 'STATION_NAME', 'DATE','TMAX', 'TMIN')
+
+weather15 = weather15.withColumn('AVG_T', (weather15.TMAX + weather15.TMIN)/2).withColumn('snowed', snowed_or_not(weather15.SNOW))\
+.drop('STATION', 'STATION_NAME', 'DATE','TMAX', 'TMIN')
+
+weather16 = weather16.withColumn('AVG_T', (weather16.TMAX + weather16.TMIN)/2).withColumn('snowed', snowed_or_not(weather16.SNOW))\
+.drop('STATION', 'STATION_NAME', 'DATE','TMAX', 'TMIN')
 
 
 #Create a temp weather table
-weather_df.createOrReplaceTempView('weather_df')		
-
+weather13.createOrReplaceTempView('weather13')
+weather14.createOrReplaceTempView('weather14')
+weather15.createOrReplaceTempView('weather15')
+weather16.createOrReplaceTempView('weather16')
+		
 #Create a temp citibike data table
-citibike_data.createOrReplaceTempView('citibike_data')
+citibike_13.createOrReplaceTempView('citibike13')
+citibike_14.createOrReplaceTempView('citibike14')
+citibike_15.createOrReplaceTempView('citibike15')
+citibike_16.createOrReplaceTempView('citibike16')
+
 
 # Run SQL queries for Analysis
-sqlquery = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike_data GROUP BY day_of_year')
-sqlquery = sqlquery.sort(col('day_of_year'))
-sqlquery.toPandas().to_csv('num_trips.csv')
+sqlquery_13 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike13 GROUP BY day_of_year ORDER BY day_of_year')
+sqlquery_14 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike14 GROUP BY day_of_year ORDER BY day_of_year')
+sqlquery_15 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike15 GROUP BY day_of_year ORDER BY day_of_year')
+sqlquery_16 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike16 GROUP BY day_of_year ORDER BY day_of_year')
 
 
-weather_df = weather_df.sort(col('day_of_yr'))
-weather_df.toPandas().to_csv('weather.csv')
+final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(sqlquery_16)
 
-
-citibike_data = sqlquery
-citibike_data.createOrReplaceTempView('citibike_data')
-sqlquery1 = spark.sql("""SELECT day_of_year, num_trips, PRCP, SNWD, AWND, AVG_T, w.snowed FROM weather_df as w LEFT JOIN citibike_data as c ON w.day_of_yr =c.day_of_year""")
-sqlquery1 = sqlquery1.sort(col('day_of_year'))
+final_query = spark.sql("""SELECT day_of_year, SUM(num_trips) as number_of_trips from final_table GROUP BY day_of_year """)
 
 #Save the Analysis to CSV for further Visualization
-sqlquery1.toPandas().to_csv('citi_weather1.csv')
+final_query.toPandas().to_csv('citi_weather.csv')
