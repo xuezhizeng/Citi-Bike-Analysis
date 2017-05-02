@@ -7,148 +7,152 @@ import pandas as pd
 from pyspark.sql import Row
 from datetime import date
 
-spark = SparkSession \
-    .builder \
-    .appName("Python Spark SQL basic example") \
-    .config("spark.some.config.option", "some-value") \
-    .getOrCreate()
+
+#warehouseLocation = "file:/home/ta1302/spark-2.1.0-bin-hadoop2.6/spark-warehouse"
+#spark = SparkSession.builder().appName("SparkSessionZipsExample").config("spark.sql.warehouse.dir", warehouseLocation).enableHiveSupport().getOrCreate()
+
+spark = SparkSession\
+.builder\
+.appName("Python Spark SQL basic example")\
+.config("spark.some.config.option", "some-value")\
+.getOrCreate()
 	
 
 #2013 Data
 cb713 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("2013-07 - Citi Bike trip data.csv", inferSchema='true')	
+.load("/home/ta1302/Citi-Bike-Analysis/2013-07 - Citi Bike trip data.csv", inferSchema='true')	
 
 cb813 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("2013-08 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2013-08 - Citi Bike trip data.csv", inferSchema='true')
 
 cb913 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("2013-09 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2013-09 - Citi Bike trip data.csv", inferSchema='true')
 
 cb1013 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("2013-10 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2013-10 - Citi Bike trip data.csv", inferSchema='true')
 
 cb1113 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("2013-11 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2013-11 - Citi Bike trip data.csv", inferSchema='true')
 
 cb1213 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("2013-12 - Citi Bike trip data.csv", inferSchema='true')	
+.load("/home/ta1302/Citi-Bike-Analysis/2013-12 - Citi Bike trip data.csv", inferSchema='true')	
 
 #2014 Data
 cb114 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-01 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-01 - Citi Bike trip data.csv", inferSchema='true')
 
 cb214 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-02 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-02 - Citi Bike trip data.csv", inferSchema='true')
 
 cb314 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-03 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-03 - Citi Bike trip data.csv", inferSchema='true')
 
 cb414 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-04 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-04 - Citi Bike trip data.csv", inferSchema='true')
 
 cb514 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-05 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-05 - Citi Bike trip data.csv", inferSchema='true')
 
 cb614 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-06 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-06 - Citi Bike trip data.csv", inferSchema='true')
 
 cb714 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-07 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-07 - Citi Bike trip data.csv", inferSchema='true')
 
 cb814 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-08 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/2014-08 - Citi Bike trip data.csv", inferSchema='true')
 
 cb914 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-09 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201409-citibike-tripdata.csv", inferSchema='true')
 
 cb1014 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-10 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201410-citibike-tripdata.csv", inferSchema='true')
 
 cb1114 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-11 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201411-citibike-tripdata.csv", inferSchema='true')
 
 cb1214 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("citibike/2014-12 - Citi Bike trip data.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201412-citibike-tripdata.csv", inferSchema='true')
 
 
 #2015 Data	
 cb115 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201501-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201501-citibike-tripdata.csv", inferSchema='true')
 
 cb215 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201502-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201502-citibike-tripdata.csv", inferSchema='true')
 
 cb315 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201503-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201503-citibike-tripdata.csv", inferSchema='true')
 
 cb415 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201504-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201504-citibike-tripdata.csv", inferSchema='true')
 
 cb515 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201505-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201505-citibike-tripdata.csv", inferSchema='true')
 
 cb615 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201506-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201506-citibike-tripdata.csv", inferSchema='true')
 
 cb715 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201507-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201507-citibike-tripdata.csv", inferSchema='true')
 
 cb815 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201508-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201508-citibike-tripdata.csv", inferSchema='true')
 
 cb915 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201509-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201509-citibike-tripdata.csv", inferSchema='true')
 
 cb1015 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201510-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201510-citibike-tripdata.csv", inferSchema='true')
 
 cb1115 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201511-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201511-citibike-tripdata.csv", inferSchema='true')
 
 cb1215 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201512-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201512-citibike-tripdata.csv", inferSchema='true')
 
 #2016 Data
 
 cb116 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201601-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201601-citibike-tripdata.csv", inferSchema='true')
 
 cb216 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201602-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201602-citibike-tripdata.csv", inferSchema='true')
 
 cb316 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201603-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201603-citibike-tripdata.csv", inferSchema='true')
 
 cb416 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201604-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201604-citibike-tripdata.csv", inferSchema='true')
 
 cb516 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201605-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201605-citibike-tripdata.csv", inferSchema='true')
 
 cb616 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201606-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201606-citibike-tripdata.csv", inferSchema='true')
 
 cb716 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201607-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201607-citibike-tripdata.csv", inferSchema='true')
 
 cb816 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201608-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201608-citibike-tripdata.csv", inferSchema='true')
 
 cb916 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201609-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201609-citibike-tripdata.csv", inferSchema='true')
 
 cb1016 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201610-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201610-citibike-tripdata.csv", inferSchema='true')
 
 cb1116 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201611-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201611-citibike-tripdata.csv", inferSchema='true')
 
 cb1216 = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("201612-citibike-tripdata.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/201612-citibike-tripdata.csv", inferSchema='true')
 
 #weather data
 weather = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("central_park_weather.csv", inferSchema='true')	
+.load("/home/ta1302/Citi-Bike-Analysis/data/central_park_weather.csv", inferSchema='true')	
 
 #select the colums we need
 #2013
@@ -188,18 +192,18 @@ cb1115 = cb1115.select(cb1115.starttime, cb1115.bikeid)
 cb1215 = cb1215.select(cb1215.starttime, cb1215.bikeid)
 
 #2016
-cb116 = cb115.select(cb116.starttime, cb116.bikeid)
-cb216 = cb215.select(cb216.starttime, cb216.bikeid)
-cb316 = cb315.select(cb316.starttime, cb316.bikeid)
-cb416 = cb415.select(cb416.starttime, cb416.bikeid)
-cb516 = cb515.select(cb516.starttime, cb516.bikeid)
-cb616 = cb615.select(cb616.starttime, cb616.bikeid)
-cb716 = cb715.select(cb716.starttime, cb716.bikeid)
-cb816 = cb815.select(cb816.starttime, cb816.bikeid)
-cb916 = cb915.select(cb916.starttime, cb916.bikeid)
-cb1016 = cb1015.select(cb1016.starttime, cb1016.bikeid)
-cb1116 = cb1115.select(cb1116.starttime, cb1116.bikeid)
-cb1216 = cb1216.select(cb1216.starttime, cb1216.bikeid)
+cb116 = cb116.select(cb116.starttime, cb116.bikeid)
+cb216 = cb216.select(cb216.starttime, cb216.bikeid)
+cb316 = cb316.select(cb316.starttime, cb316.bikeid)
+cb416 = cb416.select(cb416.starttime, cb416.bikeid)
+cb516 = cb516.select(cb516.starttime, cb516.bikeid)
+cb616 = cb616.select(cb616.starttime, cb616.bikeid)
+cb716 = cb716.select(cb716.starttime, cb716.bikeid)
+cb816 = cb816.select(cb816.starttime, cb816.bikeid)
+cb916 = cb916.select(cb916.starttime, cb916.bikeid)
+cb1016 = cb1016.withColumnRenamed('Start Time', 'starttime').withColumnRenamed('Bike ID','bikeid').select(col('starttime'),col('bikeid'))
+cb1116 = cb1116.withColumnRenamed('Start Time', 'starttime').withColumnRenamed('Bike ID','bikeid').select(col('starttime'),col('bikeid'))
+cb1216 = cb1216.withColumnRenamed('Start Time', 'starttime').withColumnRenamed('Bike ID','bikeid').select(col('starttime'),col('bikeid'))
 
 citibike_data = cb713.unionAll(cb813).unionAll(cb913).unionAll(cb1013)\
 .unionAll(cb1113).unionAll(cb1213).unionAll(cb114).unionAll(cb214)\
@@ -217,11 +221,11 @@ citibike_data = cb713.unionAll(cb813).unionAll(cb913).unionAll(cb1013)\
 new_format = 'MM/dd/yyy'
 citibike_data = citibike_data.withColumn('new_format', from_unixtime(unix_timestamp(citibike_data.starttime, 'M/d/yyy'), new_format).alias('date'))
 
-#Convert string to date
-citibike_data = citibike_data.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
+#Convert String to Date
+citibike_data = citibike_data.withColumn('timestamp',unix_timestamp('new_format','MM/dd/yyy').cast("double").cast("timestamp"))
 
-#Drop the colums you don't need
-citibike_data = citibike_data.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+#Drop the columns you don't need
+citibike_data = citibike_data.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
 
 ##Conver to Pandas as Spark Datetime functions are timezone sensitive 
 df_weather = weather.toPandas()
@@ -247,7 +251,8 @@ snowed_or_not = udf(snowed, IntegerType())
 
 #Calculate Average Temperature and Add snow column
 weather_df = weather_df.withColumn('AVG_T', (weather_df.TMAX + weather_df.TMIN)/2).withColumn('snowed', snowed_or_not(weather_df.SNOW))\
-.drop('STATION', 'STATION_NAME', 'DATE','TMAX', 'TMIN')
+.drop('STATION', 'STATION_NAME', 'TMAX', 'TMIN')
+
 
 #Create a temp weather table
 weather_df.createOrReplaceTempView('weather_df')		
@@ -257,9 +262,18 @@ citibike_data.createOrReplaceTempView('citibike_data')
 
 # Run SQL queries for Analysis
 sqlquery = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike_data GROUP BY day_of_year')
+sqlquery = sqlquery.sort(col('day_of_year'))
+sqlquery.toPandas().to_csv('num_trips.csv')
+
+
+weather_df = weather_df.sort(col('day_of_yr'))
+weather_df.toPandas().to_csv('weather.csv')
+
+
 citibike_data = sqlquery
 citibike_data.createOrReplaceTempView('citibike_data')
-sqlquery1 = spark.sql("""SELECT num_trips, PRCP, SNWD, AWND, AVG_T, w.snowed FROM weather_df as w INNER JOIN citibike_data as c ON w.day_of_yr =c.day_of_year""")
+sqlquery1 = spark.sql("""SELECT day_of_year, num_trips, PRCP, SNWD, AWND, AVG_T, w.snowed FROM weather_df as w LEFT JOIN citibike_data as c ON w.day_of_yr =c.day_of_year""")
+sqlquery1 = sqlquery1.sort(col('day_of_year'))
 
 #Save the Analysis to CSV for further Visualization
-sqlquery1.toPandas().to_csv('citi_weather.csv')
+sqlquery1.toPandas().to_csv('citi_weather1.csv')
