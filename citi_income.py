@@ -5,10 +5,12 @@ import datetime
 from pyspark.sql.types import *
 import pandas as pd
 from pyspark.sql import Row
+from bokeh.plotting import figure, output_file, show
 from datetime import date
 import numpy as np
 import urllib
-
+import json
+import pylab as pl
 
 spark = SparkSession\
 .builder\
