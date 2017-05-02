@@ -269,6 +269,7 @@ citibike_16 = citibike_16_9.unionAll(citibike_16_10)
 citibike_16 = citibike_16.withColumn("timestamp", unix_timestamp("new_format", "MM/dd/yyy").cast("double").cast("timestamp"))
 
 citibike_16 = citibike_16.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
+
 ##Conver to Pandas as Spark Datetime functions are timezone sensitive 
 df_weather = weather.toPandas()
 
@@ -333,13 +334,11 @@ citibike_14.createOrReplaceTempView('citibike14')
 citibike_15.createOrReplaceTempView('citibike15')
 citibike_16.createOrReplaceTempView('citibike16')
 
-
 # Run SQL queries for Analysis
 sqlquery_13 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike13 GROUP BY day_of_year ORDER BY day_of_year')
 sqlquery_14 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike14 GROUP BY day_of_year ORDER BY day_of_year')
 sqlquery_15 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike15 GROUP BY day_of_year ORDER BY day_of_year')
 sqlquery_16 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike16 GROUP BY day_of_year ORDER BY day_of_year')
-
 
 final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(sqlquery_16)
 
