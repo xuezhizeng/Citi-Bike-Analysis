@@ -340,11 +340,23 @@ sqlquery_14 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM cit
 sqlquery_15 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike15 GROUP BY day_of_year ORDER BY day_of_year')
 sqlquery_16 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike16 GROUP BY day_of_year ORDER BY day_of_year')
 
-final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(sqlquery_16)
+#Create a temp citibike data table
+sqlquery_13.createOrReplaceTempView('citibike13')
+sqlquery_14.createOrReplaceTempView('citibike14')
+sqlquery_15.createOrReplaceTempView('citibike15')
+sqlquery_16.createOrReplaceTempView('citibike16')
 
-final_table.createOrReplaceTempView('final_table')
+#final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(sqlquery_16)
 
-final_query = spark.sql("""SELECT day_of_year, SUM(num_trips) as number_of_trips from final_table GROUP BY day_of_year ORDER BY day_of_year """)
+#final_table.createOrReplaceTempView('final_table')
+
+final_query13 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike13 as c INNER JOIN weather13 as w ON w.day_of_yr =c.day_of_year""")
+final_query14 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike14 as c INNER JOIN weather14 as w ON w.day_of_yr =c.day_of_year""")
+final_query15 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike15 as c INNER JOIN weather15 as w ON w.day_of_yr =c.day_of_year""")
+final_query16 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike16 as c INNER JOIN weather16 as w ON w.day_of_yr =c.day_of_year""")
 
 #Save the Analysis to CSV for further Visualization
-final_query.toPandas().to_csv('citi_weather.csv')
+final_query13.toPandas().to_csv('citi_weather13.csv')
+final_query14.toPandas().to_csv('citi_weather14.csv')
+final_query15.toPandas().to_csv('citi_weather15.csv')
+final_query16.toPandas().to_csv('citi_weather16.csv')
