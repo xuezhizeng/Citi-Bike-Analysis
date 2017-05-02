@@ -255,7 +255,7 @@ citibike_data.createOrReplaceTempView('citibike_data')
 
 unique_zip.createOrReplaceTempView('unique_zip')
 
-merged_df = spark.sql("""select zip_code, COUNT(bikeid) as num_trips from citibike_15 as cb LEFT JOIN unique_zip as uz ON uz.id = cb.id GROUP BY zip_code""")
+merged_df = spark.sql("""select zip_code, COUNT(bikeid) as num_trips from citibike_data as cb LEFT JOIN unique_zip as uz ON uz.id = cb.id GROUP BY zip_code""")
 
 merged_df.createOrReplaceTempView('merged_df')
 
