@@ -190,7 +190,7 @@ cb816 = cb816.select(col('start station id'),col('start station latitude'), col(
 cb916 = cb916.select(col('start station id'),col('start station latitude'), col('start station longitude'), col('bikeid'))
 cb1016 = cb1016.select(col('start station id'),col('start station latitude'), col('start station longitude'), col('Bike ID'))\
 .withColumnRenamed('Bike ID', 'bikeid')
-cb1016 = cb1116.select(col('start station id'),col('start station latitude'), col('start station longitude'), col('Bike ID'))\
+cb1116 = cb1116.select(col('start station id'),col('start station latitude'), col('start station longitude'), col('Bike ID'))\
 .withColumnRenamed('Bike ID', 'bikeid')
 cb1216 = cb1216.select(col('start station id'),col('start station latitude'), col('start station longitude'), col('Bike ID'))\
 .withColumnRenamed('Bike ID', 'bikeid')
