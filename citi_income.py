@@ -246,7 +246,7 @@ income_df = spark.createDataFrame(zipincome)
 citibike_data = citibike_data.withColumnRenamed('start station id', 'id').drop('start station latitude', 'start station longitude')
 
 unique_zip = spark.read.format("com.databricks.spark.csv").option("header", "true")\
-.load("./reverse_geo_cb.csv", inferSchema='true')
+.load("/home/ta1302/Citi-Bike-Analysis/data/reverse_geo_cb.csv", inferSchema='true')
 
 unique_zip = unique_zip.drop('_c0', 'latitude', 'longitude')
 
