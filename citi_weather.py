@@ -227,59 +227,48 @@ citibike_16_10 = cb1016.unionAll(cb1116).unionAll(cb1216)
 
 #Change the date format for 2013
 new_format = 'MM/dd/yyy'
-citibike_13 = citibike_13.withColumn('formatted', from_unixtime(unix_timestamp(citibike_13.starttime, 'yyy/MM/dd'), new_format).alias('date'))
+citibike_13 = citibike_13.withColumn('new_format', from_unixtime(unix_timestamp(citibike_13.starttime, 'yyy/MM/dd'), new_format).alias('date'))
 
 citibike_13 = citibike_13.withColumn('timestamp',unix_timestamp('new_format','MM/dd/yyy').cast("double").cast("timestamp"))
 
-citibike_13 = citibike_13.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+citibike_13 = citibike_13.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
 
 #Change the date format for 2014
 new_format = 'MM/dd/yyy'
 
-citibike_14_8 = citibike_14_8.withColumn('formatted', from_unixtime(unix_timestamp(citibike_14_8.starttime, 'yyy/MM/dd'), new_format).alias('date'))
+citibike_14_8 = citibike_14_8.withColumn('new_format', from_unixtime(unix_timestamp(citibike_14_8.starttime, 'yyy/MM/dd'), new_format).alias('date'))
 
-citibike_14_9 = citibike_14_9.withColumn('formatted', from_unixtime(unix_timestamp(citibike_14_9.starttime, 'M/d/yyy'), new_format).alias('date'))
+citibike_14_9 = citibike_14_9.withColumn('new_format', from_unixtime(unix_timestamp(citibike_14_9.starttime, 'M/d/yyy'), new_format).alias('date'))
 
 citibike_14 = citibike_14_8.unionAll(citibike_14_9)
 
-citibike_14 = citibike_14.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
+citibike_14 = citibike_14.withColumn("timestamp", unix_timestamp("new_format", "MM/dd/yyy").cast("double").cast("timestamp"))
 
-citibike_14 = citibike_14.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+citibike_14 = citibike_14.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
 
 #Change the date format for 2015
 
 new_format = 'MM/dd/yyy'
 
-citibike_15 = citibike_15.withColumn('formatted', from_unixtime(unix_timestamp(citibike_15.starttime, 'M/d/yyy'), new_format).alias('date'))
+citibike_15 = citibike_15.withColumn('new_format', from_unixtime(unix_timestamp(citibike_15.starttime, 'M/d/yyy'), new_format).alias('date'))
 
-citibike_15 = citibike_15.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
+citibike_15 = citibike_15.withColumn("timestamp", unix_timestamp("new_format", "MM/dd/yyy").cast("double").cast("timestamp"))
 
-citibike_15 = citibike_15.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+citibike_15 = citibike_15.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
 
 #Change the date format for 2016
 
 new_format = 'MM/dd/yyy'
 
-citibike_16_9 = citibike_16_9.withColumn('formatted', from_unixtime(unix_timestamp(citibike_16_9.starttime, 'M/d/yyy'), new_format).alias('date'))
+citibike_16_9 = citibike_16_9.withColumn('new_format', from_unixtime(unix_timestamp(citibike_16_9.starttime, 'M/d/yyy'), new_format).alias('date'))
 
-citibike_16_10 = citibike_16_10.withColumn('formatted', from_unixtime(unix_timestamp(citibike_16_10.starttime, 'yyy/MM/dd'), new_format).alias('date'))
+citibike_16_10 = citibike_16_10.withColumn('new_format', from_unixtime(unix_timestamp(citibike_16_10.starttime, 'yyy/MM/dd'), new_format).alias('date'))
 
 citibike_16 = citibike_16_9.unionAll(citibike_16_10)
 
-citibike_16 = citibike_16.withColumn("timestamp", unix_timestamp("formatted", "MM/dd/yyy").cast("double").cast("timestamp"))
+citibike_16 = citibike_16.withColumn("timestamp", unix_timestamp("new_format", "MM/dd/yyy").cast("double").cast("timestamp"))
 
-citibike_16 = citibike_16.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
-
-
-
-#Drop the columns you don't need
-citibike_13 = citibike_13.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
-
-citibike_14 = citibike_14.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
-
-citibike_15 = citibike_15.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
-
-citibike_16 = citibike_16.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'formatted', 'timestamp')
+citibike_15 = citibike_15.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
 
 ##Conver to Pandas as Spark Datetime functions are timezone sensitive 
 df_weather = weather.toPandas()
