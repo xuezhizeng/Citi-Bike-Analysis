@@ -268,8 +268,6 @@ citibike_16 = citibike_16_9.unionAll(citibike_16_10)
 
 citibike_16 = citibike_16.withColumn("timestamp", unix_timestamp("new_format", "MM/dd/yyy").cast("double").cast("timestamp"))
 
-citibike_15 = citibike_15.withColumn('day_of_year', dayofyear(col('timestamp'))).drop('starttime', 'new_format', 'timestamp')
-
 ##Conver to Pandas as Spark Datetime functions are timezone sensitive 
 df_weather = weather.toPandas()
 
