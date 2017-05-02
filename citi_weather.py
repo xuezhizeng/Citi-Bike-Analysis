@@ -350,19 +350,12 @@ sqlquery_16.createOrReplaceTempView('citibike16')
 
 #final_table.createOrReplaceTempView('final_table')
 
-final_query13 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike13 as c INNER JOIN weather13 as w ON w.day_of_yr =c.day_of_year""")
-final_query14 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike14 as c INNER JOIN weather14 as w ON w.day_of_yr =c.day_of_year""")
-final_query15 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike15 as c INNER JOIN weather15 as w ON w.day_of_yr =c.day_of_year""")
-final_query16 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike16 as c INNER JOIN weather16 as w ON w.day_of_yr =c.day_of_year""")
+final_query13 = spark.sql("""SELECT num_trips, PRCP, SNWD, AWND, AVG_T, snowed  FROM citibike13 as c INNER JOIN weather13 as w ON w.day_of_yr =c.day_of_year""")
+final_query14 = spark.sql("""SELECT num_trips, PRCP, SNWD, AWND, AVG_T, snowed  FROM citibike14 as c INNER JOIN weather14 as w ON w.day_of_yr =c.day_of_year""")
+final_query15 = spark.sql("""SELECT num_trips, PRCP, SNWD, AWND, AVG_T, snowed  FROM citibike15 as c INNER JOIN weather15 as w ON w.day_of_yr =c.day_of_year""")
+final_query16 = spark.sql("""SELECT num_trips, PRCP, SNWD, AWND, AVG_T, snowed  FROM citibike16 as c INNER JOIN weather16 as w ON w.day_of_yr =c.day_of_year""")
 
-#Sort the data by day of year
-final_query13 = final_query13.sort(col('day_of_yr'))
-final_query14 = final_query14.sort(col('day_of_yr'))
-final_query15 = final_query15.sort(col('day_of_yr'))
-final_query16 = final_query16.sort(col('day_of_yr'))
+final_query = final_query13.unionAll(final_query14).unionAll(final_query15).unionAll(final_query15)
 
 #Save the Analysis to CSV for further Visualization
-final_query13.toPandas().to_csv('citi_weather13.csv')
-final_query14.toPandas().to_csv('citi_weather14.csv')
-final_query15.toPandas().to_csv('citi_weather15.csv')
-final_query16.toPandas().to_csv('citi_weather16.csv')
+final_query.toPandas().to_csv('citi_weather_regression.csv')
