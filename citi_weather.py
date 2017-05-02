@@ -355,8 +355,14 @@ final_query14 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, 
 final_query15 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike15 as c INNER JOIN weather15 as w ON w.day_of_yr =c.day_of_year""")
 final_query16 = spark.sql("""SELECT day_of_yr, PRCP, SNWD, AWND, AVG_T, snowed, num_trips FROM citibike16 as c INNER JOIN weather16 as w ON w.day_of_yr =c.day_of_year""")
 
+#Sort the data by day of year
+final_query13 = final_query13.sort(col('day_of_yr'))
+final_query14 = final_query14.sort(col('day_of_yr'))
+final_query15 = final_query15.sort(col('day_of_yr'))
+final_query16 = final_query16.sort(col('day_of_yr'))
+
 #Save the Analysis to CSV for further Visualization
-final_query13.sort(col('day_of_yr')).toPandas().to_csv('citi_weather13.csv')
-final_query14.sort(col('day_of_yr')).toPandas().to_csv('citi_weather14.csv')
-final_query15.sort(col('day_of_yr')).toPandas().to_csv('citi_weather15.csv')
-final_query16.sort(col('day_of_yr')).toPandas().to_csv('citi_weather16.csv')
+final_query13.toPandas().to_csv('citi_weather13.csv')
+final_query14.toPandas().to_csv('citi_weather14.csv')
+final_query15.toPandas().to_csv('citi_weather15.csv')
+final_query16.toPandas().to_csv('citi_weather16.csv')
