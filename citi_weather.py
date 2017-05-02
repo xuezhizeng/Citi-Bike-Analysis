@@ -344,7 +344,7 @@ final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(s
 
 final_table.createOrReplaceTempView('final_table')
 
-final_query = spark.sql("""SELECT day_of_year, SUM(num_trips) as number_of_trips from final_table GROUP BY day_of_year """)
+final_query = spark.sql("""SELECT day_of_year, SUM(num_trips) as number_of_trips from final_table GROUP BY day_of_year ORDER BY day_of_year """)
 
 #Save the Analysis to CSV for further Visualization
 final_query.toPandas().to_csv('citi_weather.csv')
