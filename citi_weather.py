@@ -286,7 +286,7 @@ df_weather_15 = df_weather[(df_weather['DATE']>=date(2015,1,1)) & (df_weather['D
 df_weather_16 = df_weather[(df_weather['DATE']>=date(2016,1,1)) & (df_weather['DATE']<=date(2016,12,31))]
 
 
-spark.createDataFrame(df_weather_13).printSchema()
+spark.createDataFrame(df_weather_13).show()
 
 #Get Day of Year for weather data
 df_weather_13['day_of_yr'] = df_weather_13.DATE.apply(lambda x: x.dayofyear)
@@ -336,6 +336,8 @@ citibike_14.createOrReplaceTempView('citibike14')
 citibike_15.createOrReplaceTempView('citibike15')
 citibike_16.createOrReplaceTempView('citibike16')
 
+citibike_13.show()
+
 # Run SQL queries for Analysis
 sqlquery_13 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike13 GROUP BY day_of_year ORDER BY day_of_year')
 sqlquery_14 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike14 GROUP BY day_of_year ORDER BY day_of_year')
@@ -349,7 +351,6 @@ sqlquery_14.createOrReplaceTempView('citibike14')
 sqlquery_15.createOrReplaceTempView('citibike15')
 sqlquery_16.createOrReplaceTempView('citibike16')
 
-citibike13.printSchema()
 
 final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(sqlquery_16)
 final_table.createOrReplaceTempView('final_table')
