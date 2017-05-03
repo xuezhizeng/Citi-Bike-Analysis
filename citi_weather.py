@@ -346,9 +346,10 @@ sqlquery_14.createOrReplaceTempView('citibike14')
 sqlquery_15.createOrReplaceTempView('citibike15')
 sqlquery_16.createOrReplaceTempView('citibike16')
 
-#final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(sqlquery_16)
-
-#final_table.createOrReplaceTempView('final_table')
+final_table = sqlquery_13.unionAll(sqlquery_14).unionAll(sqlquery_15).unionAll(sqlquery_16)
+final_table.createOrReplaceTempView('final_table')
+total_num_trips = spark.sql("""SELECT SUM(num_trips) as total_trips FROM final_table """)
+total_num_trips.toPandas().to_csv('total_trips.csv')
 
 final_query13 = spark.sql("""SELECT num_trips, PRCP, SNWD, AWND, AVG_T, snowed  FROM citibike13 as c INNER JOIN weather13 as w ON w.day_of_yr =c.day_of_year""")
 final_query14 = spark.sql("""SELECT num_trips, PRCP, SNWD, AWND, AVG_T, snowed  FROM citibike14 as c INNER JOIN weather14 as w ON w.day_of_yr =c.day_of_year""")
