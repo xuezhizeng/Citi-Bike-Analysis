@@ -244,6 +244,8 @@ zipincome['income'] = [incomeByZip.loc[[z]]["Adjusted gross income (AGI) [3]"].i
 
 income_df = spark.createDataFrame(zipincome)
 
+zipincome.printSchema()
+
 citibike_data = citibike_data.withColumnRenamed('start station id', 'id').drop('start station latitude', 'start station longitude')
 
 unique_zip = spark.read.format("com.databricks.spark.csv").option("header", "true")\
