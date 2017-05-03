@@ -342,6 +342,7 @@ sqlquery_14 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM cit
 sqlquery_15 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike15 GROUP BY day_of_year ORDER BY day_of_year')
 sqlquery_16 = spark.sql('SELECT day_of_year, count(bikeid) as num_trips FROM citibike16 GROUP BY day_of_year ORDER BY day_of_year')
 
+
 #Create a temp citibike data table
 sqlquery_13.createOrReplaceTempView('citibike13')
 sqlquery_14.createOrReplaceTempView('citibike14')
