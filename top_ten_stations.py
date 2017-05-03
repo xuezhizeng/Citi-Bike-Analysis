@@ -265,3 +265,5 @@ citibike_data = citibike_13.unionAll(citibike_14).unionAll(citibike_15).unionAll
 citibike_data.createOrReplaceTempView('citibike_data')
 
 top_ten = spark.sql("""SELECT sname, COUNT(sid) as num_trips from citibike_data GROUP BY sid,sname ORDER BY num_trips limit 10""")
+
+top_ten.toPandas().to_csv('top_ten.csv')
