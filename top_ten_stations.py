@@ -231,17 +231,17 @@ cb1216 = cb1216.select(col('start station id'),col('start station name'))\
 .withColumnRenamed('start station id','sid').withColumnRenamed('start station name','sname')
 
 #2013
-cb713 = cb116.select(col('start station id'),col('start station name'))\
+cb713 = cb713.select(col('start station id'),col('start station name'))\
 .withColumnRenamed('start station id','sid').withColumnRenamed('start station name','sname')
-cb813 = cb116.select(col('start station id'),col('start station name'))\
+cb813 = cb813.select(col('start station id'),col('start station name'))\
 .withColumnRenamed('start station id','sid').withColumnRenamed('start station name','sname')
-cb913 = cb116.select(col('start station id'),col('start station name'))\
+cb913 = cb913.select(col('start station id'),col('start station name'))\
 .withColumnRenamed('start station id','sid').withColumnRenamed('start station name','sname')
-cb1013 = cb116.select(col('start station id'),col('start station name'))\
+cb1013 = cb1013.select(col('start station id'),col('start station name'))\
 .withColumnRenamed('start station id','sid').withColumnRenamed('start station name','sname')
-cb1113 = cb116.select(col('start station id'),col('start station name'))\
+cb1113 = cb1113.select(col('start station id'),col('start station name'))\
 .withColumnRenamed('start station id','sid').withColumnRenamed('start station name','sname')
-cb1213 = cb116.select(col('start station id'),col('start station name'))\
+cb1213 = cb1213.select(col('start station id'),col('start station name'))\
 .withColumnRenamed('start station id','sid').withColumnRenamed('start station name','sname')
 
 citibike_13 = cb713.unionAll(cb813).unionAll(cb913).unionAll(cb1013)\
